@@ -1,0 +1,40 @@
+# Conda environment for the thesis notebooks.
+#   conda env create -f environment.yml
+#   conda activate thesis
+# Versions are pinned close to what the original 2024 analysis used (pandas 2.1,
+# pingouin 0.5.3, statsmodels 0.14) so that the numbers in thesis_final.pdf reproduce.
+name: thesis
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy=1.26
+  - pandas=2.1
+  - scipy=1.11
+  - matplotlib=3.8
+  - seaborn=0.13
+  - statsmodels=0.14
+  - pingouin=0.5.3
+  - geopandas=0.14
+  - shapely=2.0
+  - pyproj=3.6
+  - geopy=2.4
+  - cartopy=0.22
+  - xarray=2023.12
+  - rioxarray=0.15
+  - netcdf4
+  - openpyxl
+  - requests
+  - plotly
+  - tqdm
+  - jupyterlab
+  - nbconvert
+  - ipykernel
+  - joblib
+  - threadpoolctl
+  - pip
+  - pip:
+      # Installed from PyPI on purpose: the PyPI wheel of 1.2.2 reproduces the random
+      # forest numbers in thesis Table 6.7 exactly (train/test MSE 0.484 / 4.216). The
+      # conda-forge build and newer versions give 0.482 / 4.205.
+      - scikit-learn==1.2.2
