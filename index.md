@@ -1,7 +1,7 @@
 ---
 title: Prescribed Fire and Wildfire Size in California
 short_title: Overview
-subtitle: Do prescribed burns go with smaller wildfires? A data-fusion study of California, 2013–2022
+subtitle: Do prescribed burns result in smaller wildfires? A data-fusion study of California, 2013–2022
 ---
 
 +++ {"part": "abstract"}
@@ -24,7 +24,7 @@ area burned. Each panel starts from one year of prescribed burns.
 
 ::::{grid} 1 1 2 2
 
-:::{card} Individual fires: Rx burns go with smaller wildfires
+:::{card} Individual fires: Rx burns are related to smaller wildfires
 A wildfire with more prescribed-burn acres within **50 km in the previous 3 months** tends to be smaller, even after
 adjusting for precipitation, temperature, wind and region (standardized coefficient −0.34, *p* < 0.001; a mixed
 model with region effects gives −0.26).
