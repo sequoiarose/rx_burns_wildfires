@@ -12,11 +12,12 @@ is associated with a smaller wildfire. The evidence so far:
 * **One-sided Mann–Whitney tests** (Table 4.5): wildfires with an Rx burn within 10–50 km in the previous
   3–12 months are slightly smaller (CLES ≈ 0.53–0.57, many p < 0.05). This uses 60 exposure definitions with no
   multiple-testing correction and no adjustment for climate, location, or fuels.
-* **Regression on log acres** (Chapter 6): in the pooled OLS model with region interactions,
-  `log_prescribed_3_months_size_50km` has a negative coefficient (−0.35 on the standardized scale, p < 0.001).
-  This is an association, not a causal effect: the model omits fuels and fire weather, uses the faulty `max_wind`,
-  and its standard errors assume independent fires. Models explain little held-out variance (best test MSE 4.2 vs
-  4.9 for the null model).
+* **Regression on log acres** (Chapter 6, re-run in Nov 2026 with the corrected `max_wind`): in the pooled OLS model
+  with region interactions, `log_prescribed_3_months_size_50km` has a negative coefficient (−0.34 on the standardized
+  scale, p < 0.001; the mixed model gives −0.26). This is an association, not a causal effect: the model omits fuels
+  and most fire weather, and its standard errors assume independent fires. The thesis's regional wind effects
+  disappeared once the wind bug was fixed (README, "Changes since the thesis"). Models explain little held-out variance
+  (best test MSE 4.17 vs 4.86 for the null model).
 
 Three limitations motivate the next steps:
 

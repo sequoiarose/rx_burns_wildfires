@@ -5,7 +5,8 @@ prescribed (Rx) fire before a wildfire, near where it starts, is associated with
 accounting for climate and region.
 
 The repository was cleaned up and documented in November 2026 for the student continuing the work. Every
-notebook runs top to bottom, and the results in the thesis reproduce (see [Reproducibility](#reproducibility)).
+notebook runs top to bottom and the thesis results reproduced, except Chapter 6, which now differs on purpose
+because a bug in the wind variable was fixed (see [Changes since the thesis](#changes-since-the-thesis)).
 
 **Start here**
 1. Read `thesis_documents/thesis_final.pdf`, Chapters 3–6.
@@ -92,16 +93,42 @@ results. `01` writes its rebuild to `data/processed/rebuilt/` and checks it agai
 
 Checked in November 2026 on macOS (Apple silicon) with `environment.yml`:
 
-* `01_dataset_creation` rebuilds `prescribed_treatment_data_new_clean.csv` exactly from the raw data: 1,992 rows,
-  all 81 rebuilt columns identical. The only missing column is `max_wind`, which came from a separate web download.
-  It also rebuilds `monthly_data.csv` (differences < 1e-4 acres, from float rounding).
-* For notebooks 02–05, every printed table and statistic matches the 2024 outputs (apart from timestamps in
-  statsmodels summaries), including Tables 6.3 and 6.7.
-* Table 6.7's random forest row reproduces only with the **PyPI wheel of scikit-learn 1.2.2**, which is why it is
-  installed with pip in `environment.yml`. Newer versions and the conda-forge build give 0.482 / 4.205 instead of 0.484 / 4.216.
+* `01_dataset_creation` rebuilds `prescribed_treatment_data_new_clean.csv` exactly from the raw data: all 1,992 rows
+  and 82 columns identical, including the corrected `max_wind`, which is read from the download cache in
+  `data/raw/open_meteo/`. It also rebuilds `monthly_data.csv` (differences < 1e-4 acres, from float rounding).
+* For notebooks 02–04, every printed table and statistic matches the 2024 outputs (apart from timestamps).
+* `05_modeling` matched the thesis exactly (Tables 6.1–6.7) **before** the wind fix. It now differs on purpose,
+  because `max_wind` was corrected; see [Changes since the thesis](#changes-since-the-thesis). The 2024 version and
+  its outputs are in `old/original_notebooks_2024/Modeling_2.ipynb`, and the 2024 data file is in
+  `old/data/prescribed_treatment_data_new_clean_2024_buggy_wind.csv`.
+* The thesis random forest numbers reproduced only with the **PyPI wheel of scikit-learn 1.2.2**, which is why it is
+  installed with pip in `environment.yml`. Newer versions and the conda-forge build give slightly different results.
 * The original spatial join used geopy in a Python double loop and took about 5.5 hours. It is now vectorized with
   `pyproj.Geod`, which computes the same WGS-84 geodesic, and the rebuilt columns are identical. The original loop
   is still available behind `USE_ORIGINAL_SLOW_LOOP = True`.
+
+## Changes since the thesis
+
+**`max_wind` corrected (November 2026).** The 2024 download used the first fire's date (2013-02-24) for every
+fire, so the old column only described location. It correlates just 0.20 with the corrected fire-day values. The
+corrected column is the maximum 10 m wind speed (Open-Meteo/ERA5) on the fire's local start date. Only `max_wind`
+changed; every other column is byte-identical. Effect on Chapter 6 (current values in `05_modeling.ipynb`; the
+figures in `figures/` were regenerated):
+
+| Result | Thesis (2024 wind) | Corrected wind |
+|---|---|---|
+| VIF of `max_wind` (all predictors / reduced set, Tables 6.1–6.2) | 15.3 / 12.7 | 8.0 / 6.9 |
+| Pooled OLS, `log_prescribed_3_months_size_50km` (Table 6.4) | −0.346, p < 0.001 | −0.336, p < 0.001 |
+| Pooled OLS, wind terms with p < 0.05 | Sierras×wind (−), Central Coast×wind (+), Multiple×wind (−) | **none** (South Coast×wind p = 0.07) |
+| Linear mixed model, Rx coefficient (Table 6.6) | −0.248, p < 0.001 | −0.257, p < 0.001 |
+| Linear mixed model, wind random-slope variance | 0.185 | 0.019 |
+| Test MSE: null / OLS / LMM / KNN / SVM / RF / AdaBoost (Table 6.7) | 4.857 / 4.467 / 5.066 / 4.847 / 4.734 / **4.216** / 4.749 | 4.857 / 4.520 / 5.364 / 4.730 / 4.712 / **4.168** / 4.713 |
+| Tuned hyperparameters | KNN k = 15 uniform; RF 1,000 trees | KNN k = 11 distance-weighted (so train MSE = 0); RF 750 trees |
+
+**What it means:** the Rx association (−0.34 in OLS, −0.26 in the mixed model) and the precipitation and temperature
+results are essentially unchanged. The thesis's **significant region × wind interactions (Table 6.4) and the large wind
+random-slope variance (Table 6.6) were artefacts of the bug** and disappear. The pooled wind main effect was not
+significant before and still isn't (p = 0.69). The random forest is still the best model on test MSE, and every model is still only modestly better than the null model.
 
 ## Known issues
 
