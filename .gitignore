@@ -2,3 +2,11 @@ __pycache__/
 .ipynb_checkpoints/
 .DS_Store
 data/processed/rebuilt/
+_build/
+
+# large or third-party files kept locally but not published
+# (raw data sources are listed in data/README.md)
+data/raw/
+data/other_candidates/
+old/
+literature/

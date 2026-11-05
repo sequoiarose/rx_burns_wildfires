@@ -1,0 +1,45 @@
+version: 1
+project:
+  title: Prescribed Fire and Wildfire Size in California
+  subtitle: A statistical analysis of wildland and prescribed fires in the changing California environment
+  description: >-
+    Fusing CAL FIRE wildfire records, prescribed burn perimeters and NOAA climate data (2013–2022) to ask
+    whether prescribed burns are associated with smaller wildfires. M.S. thesis, San Francisco State University.
+  authors:
+    - name: Sequoia Andrade
+      affiliations:
+        - San Francisco State University
+  copyright: '2024'
+  keywords:
+    - wildfire
+    - prescribed fire
+    - California
+    - spatial statistics
+    - regression
+  github: https://github.com/sequoiarose/rx_burns_wildfires
+  thumbnail: website/images/rx_wild_map_2017_2020.png
+  exclude:
+    - old/**
+    - data/**
+    - literature/**
+    - thesis_documents/abstracts/**
+    - thesis_documents/posters_and_presentations/**
+    - _build/**
+  toc:
+    - file: index.md
+    - file: website/findings.md
+    - file: docs/data_dictionary.md
+    - title: Analysis notebooks
+      children:
+        - file: 01_dataset_creation.ipynb
+        - file: 02_dataset_exploration.ipynb
+        - file: 03_treatment_analysis.ipynb
+        - file: 04_time_series_analysis.ipynb
+        - file: 05_modeling.ipynb
+    - file: website/reproducibility.md
+    - file: docs/FUTURE_WORK.md
+site:
+  options:
+    folders: true
+    logo_text: Prescribed Fire & Wildfire
+  template: book-theme

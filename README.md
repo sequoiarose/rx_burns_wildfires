@@ -14,7 +14,11 @@ because a bug in the wind variable was fixed (see [Changes since the thesis](#ch
 3. Read [`docs/data_dictionary.md`](docs/data_dictionary.md) and the [Known issues](#known-issues) below.
 4. Read the plan for next steps: [`docs/FUTURE_WORK.md`](docs/FUTURE_WORK.md) (spatio-temporal quantile regression and the distilled CRT).
 
+**Website:** the project is also published as a MyST site (see [Website](#website) below).
+
 ---
+
+<!-- site-include-start -->
 
 ## Setup
 
@@ -130,6 +134,11 @@ results are essentially unchanged. The thesis's **significant region × wind int
 random-slope variance (Table 6.6) were artefacts of the bug** and disappear. The pooled wind main effect was not
 significant before and still isn't (p = 0.69). The random forest is still the best model on test MSE, and every model is still only modestly better than the null model.
 
+**Fig 6.1 significance stars fixed (November 2026).** The plotting code matched p-values to bars in the wrong order,
+so 19 of the 32 stars in the thesis figure were on the wrong bar. The coefficients were correct. The corrected
+figure shows the prescribed-fire coefficient significant (*p* < 0.05) in the Central Coast, Central Valley, Desert
+and Sierras.
+
 ## Known issues
 
 These are documented in the notebook headers and the data dictionary, and should be considered in any follow-up work.
@@ -159,3 +168,19 @@ These are documented in the notebook headers and the data dictionary, and should
 * Open-Meteo historical weather API (wind): https://open-meteo.com/en/docs/historical-weather-api
 
 See [`data/README.md`](data/README.md) for the full inventory.
+
+## Website
+
+The project website is built with [MyST](https://mystmd.org) from `myst.yml`, `index.md`, `website/`, `docs/` and the
+notebooks (shown with their saved outputs; they are not re-executed during the build).
+
+```bash
+npm install -g mystmd      # or: pip install mystmd
+myst start                 # live preview at http://localhost:3000
+myst build --html          # static site in _build/html
+```
+
+`.github/workflows/deploy.yml` builds and publishes the site to GitHub Pages on every push to `main`. In the GitHub
+repository settings, set **Pages → Source** to **GitHub Actions**. Figures for the web pages are PNG copies in
+`website/images/`; if a figure changes, regenerate it with
+`pdftocairo -png -r 150 -singlefile figures/<name>.pdf website/images/<name>`.
