@@ -1,5 +1,7 @@
 # Prescribed Burns and Wildfire Size in California (2013–2022)
 
+[![View the project website](https://img.shields.io/badge/View%20the%20project%20website-d9480f?style=for-the-badge&logo=googlechrome&logoColor=white)](https://sequoiarose.github.io/rx_burns_wildfires/)
+
 Code and data for the master's thesis *thesis_final.pdf* (Sequoia Andrade, 2024), which studies whether
 prescribed (Rx) fire before a wildfire, near where it starts, is associated with a smaller wildfire, after
 accounting for climate and region.
@@ -14,7 +16,7 @@ because a bug in the wind variable was fixed (see [Changes since the thesis](#ch
 3. Read [`docs/data_dictionary.md`](docs/data_dictionary.md) and the [Known issues](#known-issues) below.
 4. Read the plan for next steps: [`docs/FUTURE_WORK.md`](docs/FUTURE_WORK.md) (spatio-temporal quantile regression and the distilled CRT).
 
-**Website:** the project is also published as a MyST site (see [Website](#website) below).
+**Website:** https://sequoiarose.github.io/rx_burns_wildfires/ (built with MyST; see [Website](#website) below).
 
 ---
 
